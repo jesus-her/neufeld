@@ -3,17 +3,23 @@ export const LinesColumns = [
   {
     field: "start_time",
     headerName: "Start Time",
-    width: 300,
+    width: 200,
   },
   {
     field: "end_time",
     headerName: "End Time",
-    width: 300,
+    width: 200,
   },
   {
     field: "number_real",
     headerName: "Real Number",
-    width: 100,
+    width: 200,
+  },
+
+  {
+    field: "product",
+    headerName: "Product",
+    width: 250,
   },
 
   // {

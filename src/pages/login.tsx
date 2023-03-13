@@ -28,7 +28,7 @@ export const Login: React.FC = () => {
       .then((userCredentials) => {
         // Signed in
         const user = userCredentials.user;
-        console.log(user);
+        //console.log(user);
         localStorage.setItem("user", JSON.stringify(user));
         localStorage.setItem("token", `${userCredentials}`);
         navigate("/");
@@ -42,7 +42,7 @@ export const Login: React.FC = () => {
       });
   };
 
-  console.log(email, password);
+  // console.log(email, password);
 
   return (
     <Container

@@ -20,6 +20,13 @@ import { CredentialResponse } from "interfaces/google";
 import { Login, Home, createLine1 } from "pages";
 import Line1 from "pages/line1/Line1";
 
+import Line2 from "pages/line2/Line2";
+import createLine2 from "pages/line2/create-line2";
+import createLine3 from "pages/line3/create-line3";
+import Line3 from "pages/line3/Line3";
+import Line4 from "pages/line4/Line4";
+import createLine4 from "pages/line4/create-line4";
+
 const axiosInstance = axios.create();
 axiosInstance.interceptors.request.use((request: AxiosRequestConfig) => {
   const token = localStorage.getItem("token");
@@ -80,52 +87,35 @@ function App() {
           ReadyPage={ReadyPage}
           catchAll={<ErrorComponent />}
           resources={[
-            // {
-            //   name: "properties",
-            //   list: AllProperties,
-            //   show: PropertyDetails,
-            //   create: CreateProperty,
-            //   edit: EditProperty,
-            //   icon: <VillaOutlined />,
-            // },
-            // {
-            //   name: "lots",
-            //   list: Lots,
-            //   // show: PropertyDetails,
-            //   create: CreateLot,
-            //   //edit: EditProperty,
-            //   icon: <VillaOutlined />,
-            // },
-
-            // {
-            //   name: "agents",
-            //   list: Agents,
-            //   show: AgentProfile,
-            //   icon: <PeopleAltOutlined />,
-            // },
             {
               name: "lines",
-              options: { label: "Line #1 " },
+              options: { label: "Linea #1 " },
               list: Line1,
               create: createLine1,
               icon: <CakeOutlined />,
             },
-            // {
-            //   name: "reviews",
-            //   list: Home,
-            //   icon: <StarOutlineRounded />,
-            // },
-            // {
-            //   name: "messages",
-            //   list: Home,
-            //   icon: <ChatBubbleOutline />,
-            // },
-            // {
-            //   name: "my-profile",
-            //   options: { label: "My Profile " },
-            //   list: MyProfile,
-            //   icon: <AccountCircleOutlined />,
-            // },
+
+            {
+              name: "lines2",
+              options: { label: "Linea #2 " },
+              list: Line2,
+              create: createLine2,
+              icon: <CakeOutlined />,
+            },
+            {
+              name: "lines3",
+              options: { label: "Linea #3 " },
+              list: Line3,
+              create: createLine3,
+              icon: <CakeOutlined />,
+            },
+            {
+              name: "lines4",
+              options: { label: "Linea #4 " },
+              list: Line4,
+              create: createLine4,
+              icon: <CakeOutlined />,
+            },
           ]}
           Title={Title}
           Sider={Sider}

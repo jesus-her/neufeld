@@ -28,7 +28,7 @@ const FormLot = ({
   });
 
   const myProfile = data?.data ?? [];
-  console.log(myProfile);
+  //console.log(myProfile);
 
   return (
     <Box>

@@ -23,7 +23,7 @@ const Form = ({
   onFinishHandler,
   propertyImage,
 }: FormProps) => {
-  console.log("FORM: ", register);
+  //console.log("FORM: ", register);
   return (
     <Box>
       <Typography fontSize={25} fontWeight={700} color="#11142d">

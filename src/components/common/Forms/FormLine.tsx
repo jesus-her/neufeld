@@ -2,9 +2,9 @@ import {
   Box,
   Typography,
   FormControl,
-  FormHelperText,
   TextField,
   Stack,
+  InputLabel,
   Select,
   MenuItem,
 } from "@pankod/refine-mui";
@@ -16,8 +16,13 @@ import { collection, addDoc } from "firebase/firestore";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useNavigate } from "@pankod/refine-react-router-v6";
-const FormLine = () => {
+
+//@ts-ignore
+const FormLine = ({ line }) => {
+  //console.log("LINEAAAAA:", line);
+
   const [startTime, setStartTime] = useState("");
+  const [product, setProduct] = useState("");
   const [endTime, setEndTime] = useState("");
   const [numberReal, setNumberReal] = useState("");
   const [value, setValue] = useState<Dayjs | null>(
@@ -29,28 +34,87 @@ const FormLine = () => {
     console.log("TIME AND DATE:", value?.day);
   };
 
+  //@ts-ignore
+  const seleccionarProducto = (event) => {
+    setProduct(event.target.value);
+  };
+
   const handleRegisterLine = async (e: any) => {
     e.preventDefault();
     try {
-      const docRef = await addDoc(collection(db, "line_1"), {
-        start_time: startTime,
-        end_time: endTime,
-        number_real: numberReal,
-      });
-      console.log("Document written with ID: ", docRef.id);
+      const docRef = await addDoc(
+        collection(
+          db,
+          line === "1"
+            ? "line_1"
+            : line === "2"
+            ? "line_2"
+            : line === "3"
+            ? "line_3"
+            : "line_4"
+        ),
+        {
+          start_time: startTime,
+          end_time: endTime,
+          number_real: numberReal,
+          product: product,
+        }
+      );
+      //console.log("Document written with ID: ", docRef.id);
       navigate(-1);
     } catch (e) {
-      console.error("Error adding document: ", e);
+      //console.error("Error adding document: ", e);
     }
   };
 
-  console.log("START TIME: ", startTime);
+  const productNames = [
+    "Doble Chocolate",
+    "Zanahoria",
+    "Red Velvet",
+    "Moka",
+    "Nuez",
+    "Durazno",
+    "Fresa",
+    "Chocolate",
+    "Mini Doble Chocolate",
+    "Mini Zanahoria",
+    "Mini Red Velvet",
+    "Mini Moka",
+    "Arco Iris",
+    "Mini Arco Iris",
+    "3 Leches  Cereza",
+    "3 Leches Nuez",
+    "3 leches Choco Blanco",
+    "3 Leches Durazno",
+    "3 Leches Rompope",
+    "Mini 3 Leches",
+    "Porcion 3 Leches",
+    "Porcion 3 Leches Rompope",
+    "Pastel 3 Leches Cajeta",
+    "Mini Cheese Cake",
+    "Cheese Cake Frutos Rojos Chico",
+    "Cheese Cake Frutos Rojos Grande",
+    "Rosca Philadelphia",
+    "Mini Rosca Philadelphia",
+    "Rosca Chocolate",
+    "Mini Red Cheese Cake Manzana",
+    "Cheese Cake Manzana Grande ",
+    "Cheese Cake Capuccino Grande",
+    "Flan Napolitano",
+    "Pay de Queso Ligero",
+    "Pastel Rec Tiramisau",
+    "Porcion 3 Leches Mango",
+    "Pastel 3 Leches Mango",
+  ];
+  //console.log("HOLLALALALALALALA", product);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Box>
         <Typography fontSize={25} fontWeight={700} color="#11142d">
-          Register Line 1 params
+          Register Line{" "}
+          {line === "1" ? "1" : line === "2" ? "2" : line === "3" ? "3" : "4"}{" "}
+          params
         </Typography>
 
         <Box mt={2.5} borderRadius="15px" padding="20px" bgcolor="#fcfcfc">
@@ -79,12 +143,14 @@ const FormLine = () => {
                   id="time"
                   label="Start time"
                   type="time"
-                  defaultValue="07:45"
-                  onChange={(e) => setStartTime(e.target.value)}
+                  defaultValue=""
+                  onChange={(event) => {
+                    setStartTime(event.target.value);
+                  }}
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  sx={{ width: 150 }}
+                  sx={{ width: 300 }}
                 />
               </FormControl>
               <FormControl>
@@ -92,12 +158,12 @@ const FormLine = () => {
                   id="time"
                   label="End time"
                   type="time"
-                  defaultValue="07:45"
+                  defaultValue=""
                   onChange={(e) => setEndTime(e.target.value)}
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  sx={{ width: 150 }}
+                  sx={{ width: 300 }}
                 />
               </FormControl>
               <FormControl>
@@ -112,9 +178,30 @@ const FormLine = () => {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  sx={{ width: 150 }}
+                  sx={{ width: 300 }}
                   onChange={(e) => setNumberReal(e.target.value)}
                 />
+              </FormControl>
+
+              <FormControl fullWidth sx={{ width: 300 }}>
+                <InputLabel id="demo-simple-select-label">Product</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={product}
+                  label="product"
+                  onChange={seleccionarProducto}
+                >
+                  {productNames.map((name) => (
+                    <MenuItem key={name} value={name}>
+                      {name}
+                    </MenuItem>
+                  ))}
+
+                  {/* <MenuItem value={10}>Ten</MenuItem>
+                  <MenuItem value={20}>Twenty</MenuItem>
+                  <MenuItem value={30}>Thirty</MenuItem> */}
+                </Select>
               </FormControl>
 
               {/* <DateTimePicker

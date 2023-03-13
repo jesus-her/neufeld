@@ -5,16 +5,6 @@ import { auth } from "../firebase";
 
 const MyProfile = () => {
   const user = auth.currentUser;
-  // const { user } = useGetIdentity();
-  //   const { data, isLoading, isError } = useOne({
-  //     resource: "users",
-  //     id: user?.uid,
-  //   });
-
-  //   const myProfile = data?.data ?? [];
-
-  //   if (isLoading) return <div>loading...</div>;
-  //   if (isError) return <div>error...</div>;
 
   return (
     <Profile

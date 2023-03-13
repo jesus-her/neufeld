@@ -49,7 +49,7 @@ const PropertyReferrals = () => {
       borderRadius="15px"
     >
       <Typography fontSize={18} fontWeight={600} color="#11142d">
-        ParkUp Referrals
+        Rate general
       </Typography>
 
       <Stack my="20px" direction="column" gap={4}>

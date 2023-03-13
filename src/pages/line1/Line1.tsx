@@ -24,7 +24,7 @@ const Line1 = () => {
           list.push({ id: doc.id, ...doc.data() });
         });
         setData(list);
-        console.log("DATA:", list);
+        //("DATA:", list);
       } catch (err) {
         console.log(err);
       }
@@ -138,7 +138,7 @@ const Line1 = () => {
       seconds: item.end_time.seconds,
     };
 
-    console.log(new Date(timestamp_start.seconds * 1000));
+    // console.log(new Date(timestamp_start.seconds * 1000));
     //console.log(detailsRows);
 
     return {
@@ -146,9 +146,10 @@ const Line1 = () => {
       start_time: item.start_time,
       end_time: item.end_time,
       number_real: item.number_real,
+      product: item.product,
     };
   });
-  console.log("HELLO", detailsRows);
+  // console.log("HELLO", detailsRows);
 
   return (
     <>
