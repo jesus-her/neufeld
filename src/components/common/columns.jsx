@@ -1,25 +1,30 @@
 export const LinesColumns = [
   // { field: "id", headerName: "ID", width: 60, editable: false },
   {
+    field: "date",
+    headerName: "Date",
+    width: 130,
+  },
+  {
     field: "start_time",
     headerName: "Start Time",
-    width: 200,
+    width: 120,
   },
   {
     field: "end_time",
     headerName: "End Time",
-    width: 200,
+    width: 120,
   },
   {
     field: "number_real",
     headerName: "Real Number",
-    width: 200,
+    width: 120,
   },
 
   {
     field: "product",
     headerName: "Product",
-    width: 250,
+    width: 300,
   },
 
   // {

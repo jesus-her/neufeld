@@ -51,6 +51,7 @@ const Line2 = () => {
       end_time: item.end_time,
       number_real: item.number_real,
       product: item.product,
+      date: item.date,
     };
   });
 

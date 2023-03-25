@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Refine, AuthProvider } from "@pankod/refine-core";
 import {
   notificationProvider,
@@ -9,7 +7,7 @@ import {
   ReadyPage,
   ErrorComponent,
 } from "@pankod/refine-mui";
-import { PeopleAltOutlined, CakeOutlined } from "@mui/icons-material";
+import { CakeOutlined } from "@mui/icons-material";
 
 import dataProvider from "@pankod/refine-simple-rest";
 import routerProvider from "@pankod/refine-react-router-v6";
@@ -24,8 +22,8 @@ import Line2 from "pages/line2/Line2";
 import createLine2 from "pages/line2/create-line2";
 import createLine3 from "pages/line3/create-line3";
 import Line3 from "pages/line3/Line3";
-import Line4 from "pages/line4/Line4";
-import createLine4 from "pages/line4/create-line4";
+// import Line4 from "pages/line4/Line4";
+// import createLine4 from "pages/line4/create-line4";
 
 const axiosInstance = axios.create();
 axiosInstance.interceptors.request.use((request: AxiosRequestConfig) => {
@@ -109,13 +107,13 @@ function App() {
               create: createLine3,
               icon: <CakeOutlined />,
             },
-            {
-              name: "lines4",
-              options: { label: "Linea #4 " },
-              list: Line4,
-              create: createLine4,
-              icon: <CakeOutlined />,
-            },
+            // {
+            //   name: "lines4",
+            //   options: { label: "Linea #4 " },
+            //   list: Line4,
+            //   create: createLine4,
+            //   icon: <CakeOutlined />,
+            // },
           ]}
           Title={Title}
           Sider={Sider}

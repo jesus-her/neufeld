@@ -9,35 +9,40 @@ import {
   MenuItem,
 } from "@pankod/refine-mui";
 import { db } from "../../../firebase";
-import dayjs, { Dayjs } from "dayjs";
 import { useState } from "react";
 import CustomButton from "../CustomButton";
 import { collection, addDoc } from "firebase/firestore";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useNavigate } from "@pankod/refine-react-router-v6";
 
-//@ts-ignore
-const FormLine = ({ line }) => {
-  //console.log("LINEAAAAA:", line);
-
+const FormLine = ({ line }: { line: any }) => {
   const [startTime, setStartTime] = useState("");
-  const [product, setProduct] = useState("");
   const [endTime, setEndTime] = useState("");
-  const [numberReal, setNumberReal] = useState("");
-  const [value, setValue] = useState<Dayjs | null>(
-    dayjs("2014-08-18T21:11:54")
-  );
-  const navigate = useNavigate();
-  const handleChange = (newValue: Dayjs | null) => {
-    setValue(newValue);
-    console.log("TIME AND DATE:", value?.day);
-  };
 
-  //@ts-ignore
-  const seleccionarProducto = (event) => {
+  const [product, setProduct] = useState("");
+  const [numberReal, setNumberReal] = useState("");
+
+  const navigate = useNavigate();
+
+  const cambiarHoraInicio = (event: any) => {
+    setStartTime(event.target.value);
+  };
+  const cambiarHoraFinal = (event: any) => {
+    setEndTime(event.target.value);
+  };
+  const seleccionarProducto = (event: any) => {
     setProduct(event.target.value);
   };
+
+  // Obtener la fecha actual y mandarla a la base de datos
+  const date = new Date();
+
+  let day = date.getDate();
+  let month = date.getMonth() + 1;
+  let year = date.getFullYear();
+
+  // This arrangement can be altered based on how we want the date's format to appear.
+  let currentDate = `${day}-${month}-${year}`;
+  // console.log("JKAHSGDWEGDUWE:", currentDate); // "17-6-2022"
 
   const handleRegisterLine = async (e: any) => {
     e.preventDefault();
@@ -58,13 +63,11 @@ const FormLine = ({ line }) => {
           end_time: endTime,
           number_real: numberReal,
           product: product,
+          date: currentDate,
         }
       );
-      //console.log("Document written with ID: ", docRef.id);
       navigate(-1);
-    } catch (e) {
-      //console.error("Error adding document: ", e);
-    }
+    } catch (e) {}
   };
 
   const productNames = [
@@ -106,121 +109,144 @@ const FormLine = ({ line }) => {
     "Porcion 3 Leches Mango",
     "Pastel 3 Leches Mango",
   ];
-  //console.log("HOLLALALALALALALA", product);
+  const hours = [
+    "00:00",
+    "01:00",
+    "02:00",
+    "03:00",
+    "04:00",
+    "05:00",
+    "06:00",
+    "07:00",
+    "08:00",
+    "09:00",
+    "10:00",
+    "11:00",
+    "12:00",
+    "13:00",
+    "14:00",
+    "15:00",
+    "16:00",
+    "17:00",
+    "18:00",
+    "19:00",
+    "20:00",
+    "21:00",
+    "22:00",
+    "23:00",
+    "24:00",
+  ];
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Box>
-        <Typography fontSize={25} fontWeight={700} color="#11142d">
-          Register Line{" "}
-          {line === "1" ? "1" : line === "2" ? "2" : line === "3" ? "3" : "4"}{" "}
-          params
-        </Typography>
+    <Box>
+      <Typography fontSize={25} fontWeight={700} color="#11142d">
+        Register Line
+        {line === "1" ? "1" : line === "2" ? "2" : line === "3" ? "3" : "4"}
+        params
+      </Typography>
 
-        <Box mt={2.5} borderRadius="15px" padding="20px" bgcolor="#fcfcfc">
-          <form
+      <Box mt={2.5} borderRadius="15px" padding="20px" bgcolor="#fcfcfc">
+        <form
+          style={{
+            marginTop: "20px",
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            gap: "20px",
+          }}
+          onSubmit={handleRegisterLine}
+        >
+          <Stack
             style={{
-              marginTop: "20px",
-              width: "100%",
               display: "flex",
               flexDirection: "column",
-              gap: "20px",
+              gap: 50,
+              justifyContent: "space-around",
+              alignItems: "center",
             }}
-            onSubmit={handleRegisterLine}
           >
-            <Stack
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 50,
-                // backgroundColor: "yellow",
-                justifyContent: "space-around",
-                alignItems: "center",
-              }}
-            >
-              <FormControl>
-                <TextField
-                  id="time"
-                  label="Start time"
-                  type="time"
-                  defaultValue=""
-                  onChange={(event) => {
-                    setStartTime(event.target.value);
-                  }}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  sx={{ width: 300 }}
-                />
-              </FormControl>
-              <FormControl>
-                <TextField
-                  id="time"
-                  label="End time"
-                  type="time"
-                  defaultValue=""
-                  onChange={(e) => setEndTime(e.target.value)}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  sx={{ width: 300 }}
-                />
-              </FormControl>
-              <FormControl>
-                <TextField
-                  fullWidth
-                  required
-                  id="outlined-basic"
-                  color="info"
-                  variant="outlined"
-                  type="number"
-                  label="Number real"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  sx={{ width: 300 }}
-                  onChange={(e) => setNumberReal(e.target.value)}
-                />
-              </FormControl>
+            {/* Registro de Hora inicial */}
+            <FormControl sx={{ width: 300 }}>
+              <InputLabel id="demo-simple-select-label">Start time</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={startTime}
+                label="Start time"
+                onChange={cambiarHoraInicio}
+              >
+                {hours.map((valor) => (
+                  <MenuItem key={valor} value={valor}>
+                    {valor}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
-              <FormControl fullWidth sx={{ width: 300 }}>
-                <InputLabel id="demo-simple-select-label">Product</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={product}
-                  label="product"
-                  onChange={seleccionarProducto}
-                >
-                  {productNames.map((name) => (
-                    <MenuItem key={name} value={name}>
-                      {name}
-                    </MenuItem>
-                  ))}
+            {/* Registro de Hora Final */}
+            <FormControl sx={{ width: 300 }}>
+              <InputLabel id="demo-simple-select-label">End Time</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={endTime}
+                label="End time"
+                onChange={cambiarHoraFinal}
+              >
+                {hours.map((valor) => (
+                  <MenuItem key={valor} value={valor}>
+                    {valor}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
-                  {/* <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem> */}
-                </Select>
-              </FormControl>
-
-              {/* <DateTimePicker
-                label="Date&Time picker"
-                value={value}
-                onChange={handleChange}
-                renderInput={(params) => <TextField {...params} />}
-              /> */}
-              <CustomButton
-                type="submit"
-                title={"Register"}
-                backgroundColor="#3A9A4B"
-                color="#fcfcfc"
+            {/* Registro de Numero real */}
+            <FormControl>
+              <TextField
+                fullWidth
+                required
+                id="outlined-basic"
+                color="info"
+                variant="outlined"
+                type="number"
+                label="Number real"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                sx={{ width: 300 }}
+                onChange={(e) => setNumberReal(e.target.value)}
               />
-            </Stack>
-          </form>
-        </Box>
+            </FormControl>
+
+            {/* Registro de producto */}
+            <FormControl fullWidth sx={{ width: 300 }}>
+              <InputLabel id="demo-simple-select-label">Product</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={product}
+                label="product"
+                onChange={seleccionarProducto}
+              >
+                {productNames.map((name) => (
+                  <MenuItem key={name} value={name}>
+                    {name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <CustomButton
+              type="submit"
+              title="Register"
+              backgroundColor="#3A9A4B"
+              color="#fcfcfc"
+            />
+          </Stack>
+        </form>
       </Box>
-    </LocalizationProvider>
+    </Box>
   );
 };
 
